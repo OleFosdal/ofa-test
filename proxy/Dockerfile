@@ -1,15 +1,16 @@
-FROM haproxy:alpine
+FROM haproxytech/haproxy-ubuntu
 
-# Install required packages
-RUN apk add --no-cache \
-    redis \
+# Update package list and install required packages
+RUN apt-get update && apt-get install -y \
+    redis-tools \
     socat \
     bash \
     curl \
-    supervisor
+    supervisor \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create directories
-RUN mkdir -p /var/lib/config /var/log/supervisor /scripts
+RUN mkdir -p /var/lib/config /var/log/supervisor /usr/local/etc/haproxy /scripts
 
 VOLUME /var/lib/config
 
