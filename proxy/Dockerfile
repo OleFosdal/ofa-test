@@ -1,4 +1,4 @@
-FROM haproxy:2.8-alpine
+FROM haproxy
 
 # Install required packages
 RUN apk add --no-cache \
