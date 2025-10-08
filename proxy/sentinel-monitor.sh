@@ -8,41 +8,29 @@ HAPROXY_BACKEND="redis-proxy"
 CURRENT_MASTER=""
 
 log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >&2
 }
 
 get_master_from_sentinel() {
     for sentinel in $SENTINEL_HOSTS; do
         host=${sentinel%:*}
         port=${sentinel#*:}
-        
+
         log "Querying sentinel $sentinel for master info"
-        
+
         master_info=$(redis-cli -h $host -p $port SENTINEL get-master-addr-by-name $MASTER_NAME 2>/dev/null)
         if [ $? -eq 0 ] && [ ! -z "$master_info" ]; then
-            echo "$master_info"
+            # Return in format "IP:PORT" for easy comparison
+            master_ip=$(echo "$master_info" | sed -n '1p' | tr -d '"')
+            master_port=$(echo "$master_info" | sed -n '2p' | tr -d '"')
+            echo "${master_ip}:${master_port}"
             return 0
         fi
     done
     return 1
 }
 
-clear_haproxy_servers() {
-    log "Clearing existing HAProxy servers"
-    
-    # Get list of current servers and remove them
-    echo "show servers state" | socat stdio $HAPROXY_SOCKET 2>/dev/null | \
-    grep "$HAPROXY_BACKEND" | \
-    awk '{print $4}' | \
-    while read server_name; do
-        if [ ! -z "$server_name" ]; then
-            log "Removing server: $server_name"
-            echo "del server $HAPROXY_BACKEND/$server_name" | socat stdio $HAPROXY_SOCKET 2>/dev/null
-        fi
-    done
-}
-
-add_master_to_haproxy() {
+update_master_in_haproxy() {
     local master_info="$1"
 
     if [ -z "$master_info" ]; then
@@ -50,23 +38,34 @@ add_master_to_haproxy() {
         return 1
     fi
 
-    # Parse master info (remove quotes and get IP:PORT)
-    master_ip=$(echo "$master_info" | sed -n '1p' | tr -d '"')
-    master_port=$(echo "$master_info" | sed -n '2p' | tr -d '"')
+    # Parse master info in format "IP:PORT"
+    master_ip="${master_info%:*}"
+    master_port="${master_info#*:}"
 
     if [ -z "$master_ip" ] || [ -z "$master_port" ]; then
         log "Failed to parse master info: $master_info"
         return 1
     fi
 
-    log "Adding master server: $master_ip:$master_port"
+    # Check if master server already exists
+    server_exists=$(echo "show servers state $HAPROXY_BACKEND" | socat stdio $HAPROXY_SOCKET 2>/dev/null | grep -w "master" | wc -l)
 
-    # Add master server
-    echo "add server $HAPROXY_BACKEND/master $master_ip:$master_port check" | socat stdio $HAPROXY_SOCKET
-    if [ $? -eq 0 ]; then
-        log "Successfully added master server"
+    if [ "$server_exists" -gt 0 ]; then
+        log "Updating existing master server to: $master_ip:$master_port"
+        echo "set server $HAPROXY_BACKEND/master addr $master_ip port $master_port" | socat stdio $HAPROXY_SOCKET
+        if [ $? -eq 0 ]; then
+            log "Successfully updated master server"
+        else
+            log "Failed to update master server"
+        fi
     else
-        log "Failed to add master server"
+        log "Adding new master server: $master_ip:$master_port"
+        echo "add server $HAPROXY_BACKEND/master $master_ip:$master_port check" | socat stdio $HAPROXY_SOCKET
+        if [ $? -eq 0 ]; then
+            log "Successfully added master server"
+        else
+            log "Failed to add master server"
+        fi
     fi
 }
 
@@ -82,10 +81,8 @@ update_haproxy_topology() {
 
     log "Master info: $master_info"
 
-    # Clear existing servers and add new master
-    clear_haproxy_servers
-    sleep 2  # Give HAProxy time to process removals
-    add_master_to_haproxy "$master_info"
+    # Update master server (add or update existing)
+    update_master_in_haproxy "$master_info"
 
     # Show current server status
     log "Current HAProxy server status:"
