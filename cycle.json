@@ -215,7 +215,7 @@
           }
         }
       },
-      "stateful": false,
+      "stateful": true,
       "config": {
         "network": {
           "public": "enable",
@@ -225,10 +225,24 @@
         "deploy": {
           "instances": 1,
           "startup": {
-            "delay": "10s"
+            "delay": "15s"
           }
         }
-      }
+      },
+      "volumes": [
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/data"
+        },
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/var/lib/config"
+        }
+      ]
     }
   }
 }
