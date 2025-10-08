@@ -1,0 +1,234 @@
+{
+  "version": "1.0",
+  "containers": {
+    "redis-main": {
+      "name": "redis-main",
+      "image": {
+        "name": "redis-main",
+        "origin": {
+          "type": "docker-file",
+          "details": {
+            "context_dir": "/main",
+            "build_file": "/main/Dockerfile"
+          }
+        }
+      },
+      "stateful": true,
+      "config": {
+        "network": {
+          "public": "disable",
+          "hostname": "redis-main",
+          "ports": [ "6379:6379" ]
+        },
+        "deploy": {
+          "instances": 1
+        }
+      },
+      "volumes": [
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/data"
+        },
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/var/lib/config"
+        }
+      ]
+    },
+    "redis-secondary": {
+      "name": "redis-secondary",
+      "image": {
+        "name": "redis-secondary",
+        "origin": {
+          "type": "docker-file",
+          "details": {
+            "context_dir": "/secondary",
+            "build_file": "/secondary/Dockerfile"
+          }
+        }
+      },
+      "stateful": true,
+      "config": {
+        "network": {
+          "public": "disable",
+          "hostname": "redis-secondary",
+          "ports": [ "6379:6379" ]
+        },
+        "deploy": {
+          "instances": 1,
+          "startup": {
+            "delay": "3s"
+          }
+        }
+      },
+      "volumes": [
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/data"
+        },
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/var/lib/config"
+        }
+      ]
+    },
+    "sentinel-one": {
+      "name": "sentinel-one",
+      "image": {
+        "name": "sentinel-one",
+        "origin": {
+          "type": "docker-file",
+          "details": {
+            "context_dir": "/sentinel",
+            "build_file": "/sentinel/Dockerfile"
+          }
+        }
+      },
+      "stateful": true,
+      "config": {
+        "network": {
+          "public": "disable",
+          "hostname": "sentinel-one",
+          "ports": [ "26379:26379" ]
+        },
+        "deploy": {
+          "instances": 1,
+          "startup": {
+            "delay": "5s"
+          }
+        }
+      },
+      "volumes": [
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/data"
+        },
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/var/lib/config"
+        }
+      ]
+    },
+    "sentinel-two": {
+      "name": "sentinel-two",
+      "image": {
+        "name": "sentinel-two",
+        "origin": {
+          "type": "docker-file",
+          "details": {
+            "context_dir": "/sentinel",
+            "build_file": "/sentinel/Dockerfile"
+          }
+        }
+      },
+      "stateful": true,
+      "config": {
+        "network": {
+          "public": "disable",
+          "hostname": "sentinel-two",
+          "ports": [ "26379:26379" ]
+        },
+        "deploy": {
+          "instances": 1,
+          "startup": {
+            "delay": "5s"
+          }
+        }
+      },
+      "volumes": [
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/data"
+        },
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/var/lib/config"
+        }
+      ]
+    },
+    "sentinel-three": {
+      "name": "sentinel-three",
+      "image": {
+        "name": "sentinel-three",
+        "origin": {
+          "type": "docker-file",
+          "details": {
+            "context_dir": "/sentinel",
+            "build_file": "/sentinel/Dockerfile"
+          }
+        }
+      },
+      "stateful": true,
+      "config": {
+        "network": {
+          "public": "disable",
+          "hostname": "sentinel-three",
+          "ports": [ "26379:26379" ]
+        },
+        "deploy": {
+          "instances": 1,
+          "startup": {
+            "delay": "5s"
+          }
+        }
+      },
+      "volumes": [
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/data"
+        },
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/var/lib/config"
+        }
+      ]
+    },
+    "redis-proxy": {
+      "name": "redis-proxy",
+      "image": {
+        "name": "redis-proxy",
+        "origin": {
+          "type": "docker-file",
+          "details": {
+            "context_dir": "/proxy",
+            "build_file": "/proxy/Dockerfile"
+          }
+        }
+      },
+      "stateful": false,
+      "config": {
+        "network": {
+          "public": "enable",
+          "hostname": "redis-proxy",
+          "ports": [ "6379:6379", "8404:8404" ]
+        },
+        "deploy": {
+          "instances": 1,
+          "startup": {
+            "delay": "10s"
+          }
+        }
+      }
+    }
+  }
+}
