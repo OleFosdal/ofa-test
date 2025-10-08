@@ -8,8 +8,14 @@ RUN apk add --no-cache \
     curl \
     supervisor
 
+RUN apt-get update
+
 # Create directories
+RUN mkdir -p /var/lib/config
 RUN mkdir -p /var/log/supervisor /usr/local/etc/haproxy /scripts
+
+VOLUME /var/lib/config
+RUN chown -R 0660 /var/lib/config
 
 # Copy configuration files
 COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
