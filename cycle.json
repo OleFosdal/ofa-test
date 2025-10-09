@@ -261,7 +261,7 @@
         "network": {
           "public": "disable",
           "hostname": "redis-cluster-proxy",
-          "ports": [ "6379:6379" ]
+          "ports": [ "7777:7777" ]
         },
         "deploy": {
           "instances": 1,

@@ -22,7 +22,7 @@ VOLUME /var/lib/config
 COPY proxy.conf /var/lib/config/proxy.conf
 
 # Expose proxy port (redis config handles both )
-EXPOSE 6379
+EXPOSE 7777
 
 # Start the proxy
 CMD ["redis-cluster-proxy", "-c", "/var/lib/config/proxy.conf"]
