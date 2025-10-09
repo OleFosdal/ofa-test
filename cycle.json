@@ -1,10 +1,10 @@
 {
   "version": "1.0",
   "containers": {
-    "redis-main": {
-      "name": "redis-main",
+    "redis-1": {
+      "name": "redis-1",
       "image": {
-        "name": "redis-main",
+        "name": "redis-1",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -17,7 +17,7 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-main",
+          "hostname": "redis-1",
           "ports": [ "6379:6379" ]
         },
         "deploy": {
@@ -39,10 +39,10 @@
         }
       ]
     },
-    "redis-secondary": {
-      "name": "redis-secondary",
+    "redis-2": {
+      "name": "redis-2",
       "image": {
-        "name": "redis-secondary",
+        "name": "redis-2",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -55,7 +55,7 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-secondary",
+          "hostname": "redis-2",
           "ports": [ "6379:6379" ]
         },
         "deploy": {
@@ -220,7 +220,7 @@
         "network": {
           "public": "enable",
           "hostname": "redis-proxy",
-          "ports": [ "6379:6379", "8404:8404" ]
+          "ports": [ "6379:6379" ]
         },
         "deploy": {
           "instances": 1,
