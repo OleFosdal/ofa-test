@@ -18,7 +18,7 @@
         "network": {
           "public": "disable",
           "hostname": "redis-node-1",
-          "ports": [ "6379:6379" ]
+          "ports": [ "6379:6379", "16379:16379" ]
         },
         "deploy": {
           "instances": 1
@@ -46,8 +46,8 @@
         "origin": {
           "type": "docker-file",
           "details": {
-            "context_dir": "/replica",
-            "build_file": "/replica/Dockerfile"
+            "context_dir": "/master",
+            "build_file": "/master/Dockerfile"
           }
         }
       },
@@ -56,7 +56,7 @@
         "network": {
           "public": "disable",
           "hostname": "redis-node-2",
-          "ports": [ "6379:6379" ]
+          "ports": [ "6379:6379", "16379:16379" ]
         },
         "deploy": {
           "instances": 1,
@@ -80,15 +80,15 @@
         }
       ]
     },
-    "redis-sentinel-1": {
-      "name": "redis-sentinel-1",
+    "redis-node-3": {
+      "name": "redis-node-3",
       "image": {
-        "name": "redis-sentinel-1",
+        "name": "redis-node-3",
         "origin": {
           "type": "docker-file",
           "details": {
-            "context_dir": "/sentinel",
-            "build_file": "/sentinel/Dockerfile"
+            "context_dir": "/replica",
+            "build_file": "/replica/Dockerfile"
           }
         }
       },
@@ -96,13 +96,13 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-sentinel-1",
-          "ports": [ "26379:26379" ]
+          "hostname": "redis-node-3",
+          "ports": [ "6379:6379", "16379:16379" ]
         },
         "deploy": {
           "instances": 1,
           "startup": {
-            "delay": "5s"
+            "delay": "3s"
           }
         }
       },
@@ -121,15 +121,15 @@
         }
       ]
     },
-    "redis-sentinel-2": {
-      "name": "redis-sentinel-2",
+    "redis-node-4": {
+      "name": "redis-node-4",
       "image": {
-        "name": "redis-sentinel-2",
+        "name": "redis-node-4",
         "origin": {
           "type": "docker-file",
           "details": {
-            "context_dir": "/sentinel",
-            "build_file": "/sentinel/Dockerfile"
+            "context_dir": "/replica",
+            "build_file": "/replica/Dockerfile"
           }
         }
       },
@@ -137,13 +137,13 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-sentinel-2",
-          "ports": [ "26379:26379" ]
+          "hostname": "redis-node-4",
+          "ports": [ "6379:6379", "16379:16379" ]
         },
         "deploy": {
           "instances": 1,
           "startup": {
-            "delay": "5s"
+            "delay": "3s"
           }
         }
       },
@@ -162,15 +162,15 @@
         }
       ]
     },
-    "redis-sentinel-3": {
-      "name": "redis-sentinel-3",
+    "redis-cluster-proxy": {
+      "name": "redis-cluster-proxy",
       "image": {
-        "name": "redis-sentinel-3",
+        "name": "redis-cluster-proxy",
         "origin": {
           "type": "docker-file",
           "details": {
-            "context_dir": "/sentinel",
-            "build_file": "/sentinel/Dockerfile"
+            "context_dir": "/cluster-proxy",
+            "build_file": "/cluster-proxy/Dockerfile"
           }
         }
       },
@@ -178,48 +178,7 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-sentinel-3",
-          "ports": [ "26379:26379" ]
-        },
-        "deploy": {
-          "instances": 1,
-          "startup": {
-            "delay": "5s"
-          }
-        }
-      },
-      "volumes": [
-        {
-          "local": {
-            "max_size": "3G"
-          },
-          "destination": "/data"
-        },
-        {
-          "local": {
-            "max_size": "3G"
-          },
-          "destination": "/var/lib/config"
-        }
-      ]
-    },
-    "redis-proxy": {
-      "name": "redis-proxy",
-      "image": {
-        "name": "redis-proxy",
-        "origin": {
-          "type": "docker-file",
-          "details": {
-            "context_dir": "/proxy",
-            "build_file": "/proxy/Dockerfile"
-          }
-        }
-      },
-      "stateful": true,
-      "config": {
-        "network": {
-          "public": "disable",
-          "hostname": "redis-proxy",
+          "hostname": "redis-cluster-proxy",
           "ports": [ "6379:6379" ]
         },
         "deploy": {
@@ -243,6 +202,33 @@
           "destination": "/var/lib/config"
         }
       ]
+    },
+    "redis-cluster-init": {
+      "name": "redis-cluster-init",
+      "image": {
+        "name": "redis-cluster-init",
+        "origin": {
+          "type": "docker-file",
+          "details": {
+            "context_dir": "/init",
+            "build_file": "/init/Dockerfile"
+          }
+        }
+      },
+      "stateful": false,
+      "config": {
+        "network": {
+          "public": "disable",
+          "hostname": "redis-cluster-init"
+        },
+        "deploy": {
+          "instances": 1,
+          "strategy": "function",
+          "startup": {
+            "delay": "10s"
+          }
+        }
+      }
     }
   }
 }
