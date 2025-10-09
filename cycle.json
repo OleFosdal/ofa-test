@@ -87,8 +87,8 @@
         "origin": {
           "type": "docker-file",
           "details": {
-            "context_dir": "/replica",
-            "build_file": "/replica/Dockerfile"
+            "context_dir": "/master",
+            "build_file": "/master/Dockerfile"
           }
         }
       },
@@ -138,6 +138,88 @@
         "network": {
           "public": "disable",
           "hostname": "redis-node-4",
+          "ports": [ "6379:6379", "16379:16379" ]
+        },
+        "deploy": {
+          "instances": 1,
+          "startup": {
+            "delay": "3s"
+          }
+        }
+      },
+      "volumes": [
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/data"
+        },
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/var/lib/config"
+        }
+      ]
+    },
+    "redis-node-5": {
+      "name": "redis-node-5",
+      "image": {
+        "name": "redis-node-5",
+        "origin": {
+          "type": "docker-file",
+          "details": {
+            "context_dir": "/replica",
+            "build_file": "/replica/Dockerfile"
+          }
+        }
+      },
+      "stateful": true,
+      "config": {
+        "network": {
+          "public": "disable",
+          "hostname": "redis-node-5",
+          "ports": [ "6379:6379", "16379:16379" ]
+        },
+        "deploy": {
+          "instances": 1,
+          "startup": {
+            "delay": "3s"
+          }
+        }
+      },
+      "volumes": [
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/data"
+        },
+        {
+          "local": {
+            "max_size": "3G"
+          },
+          "destination": "/var/lib/config"
+        }
+      ]
+    },
+    "redis-node-6": {
+      "name": "redis-node-6",
+      "image": {
+        "name": "redis-node-6",
+        "origin": {
+          "type": "docker-file",
+          "details": {
+            "context_dir": "/replica",
+            "build_file": "/replica/Dockerfile"
+          }
+        }
+      },
+      "stateful": true,
+      "config": {
+        "network": {
+          "public": "disable",
+          "hostname": "redis-node-6",
           "ports": [ "6379:6379", "16379:16379" ]
         },
         "deploy": {

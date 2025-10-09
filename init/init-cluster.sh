@@ -14,6 +14,8 @@ NODES=(
   "redis-node-2:6379"
   "redis-node-3:6379"
   "redis-node-4:6379"
+  "redis-node-5:6379"
+  "redis-node-6:6379"
 )
 
 # Wait for all nodes to be ready
@@ -52,20 +54,24 @@ fi
 echo "  Cluster not found. Creating new cluster..."
 echo ""
 echo "Step 3: Creating Redis Cluster..."
-echo "  - 2 Masters: redis-node-1, redis-node-2"
-echo "  - 2 Replicas: redis-node-3 (replica of node-1), redis-node-4 (replica of node-2)"
+echo "  - 3 Masters: redis-node-1, redis-node-2, redis-node-3"
+echo "  - 3 Replicas: redis-node-4, redis-node-5, redis-node-6"
 echo ""
 
 # The --cluster create command with --cluster-replicas 1 will:
-# - Assign slots 0-8191 to redis-node-1
-# - Assign slots 8192-16383 to redis-node-2
-# - Make redis-node-3 a replica of redis-node-1
-# - Make redis-node-4 a replica of redis-node-2
+# - First 3 nodes become masters (node-1, node-2, node-3)
+# - Assign slots evenly across masters:
+#   - redis-node-1: slots 0-5460
+#   - redis-node-2: slots 5461-10922
+#   - redis-node-3: slots 10923-16383
+# - Remaining 3 nodes become replicas (node-4, node-5, node-6)
 redis-cli --cluster create \
   redis-node-1:6379 \
   redis-node-2:6379 \
   redis-node-3:6379 \
   redis-node-4:6379 \
+  redis-node-5:6379 \
+  redis-node-6:6379 \
   --cluster-replicas 1 \
   --cluster-yes
 
