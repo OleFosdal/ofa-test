@@ -218,7 +218,7 @@
       "stateful": true,
       "config": {
         "network": {
-          "public": "enable",
+          "public": "disable",
           "hostname": "redis-proxy",
           "ports": [ "6379:6379" ]
         },
