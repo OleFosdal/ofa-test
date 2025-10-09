@@ -4,13 +4,14 @@ FROM ubuntu:22.04
 RUN apt-get update && apt-get install -y \
     build-essential \
     git \
+    libhiredis-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone and build redis-cluster-proxy
 WORKDIR /tmp
 RUN git clone https://github.com/RedisLabs/redis-cluster-proxy.git && \
     cd redis-cluster-proxy && \
-    make && \
+    make CFLAGS="-fcommon" && \
     make install
 
 # Create config directory
