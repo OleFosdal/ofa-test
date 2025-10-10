@@ -1,10 +1,10 @@
 {
   "version": "1.0",
   "containers": {
-    "redis-node-1": {
-      "name": "redis-node-1",
+    "keydb-node-1": {
+      "name": "keydb-node-1",
       "image": {
-        "name": "redis-node-1",
+        "name": "keydb-node-1",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -17,8 +17,13 @@
       "config": {
         "network": {
           "public": "disable",
+<<<<<<< HEAD
           "hostname": "redis-node-1",
           "ports": [ "6379:6379", "16379:16379" ]
+=======
+          "hostname": "keydb-node-1",
+          "ports": [ "6379:6379" ]
+>>>>>>> KEYDB
         },
         "deploy": {
           "instances": 1
@@ -39,10 +44,10 @@
         }
       ]
     },
-    "redis-node-2": {
-      "name": "redis-node-2",
+    "keydb-node-2": {
+      "name": "keydb-node-2",
       "image": {
-        "name": "redis-node-2",
+        "name": "keydb-node-2",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -55,8 +60,13 @@
       "config": {
         "network": {
           "public": "disable",
+<<<<<<< HEAD
           "hostname": "redis-node-2",
           "ports": [ "6379:6379", "16379:16379" ]
+=======
+          "hostname": "keydb-node-2",
+          "ports": [ "6379:6379" ]
+>>>>>>> KEYDB
         },
         "deploy": {
           "instances": 1,
@@ -80,10 +90,17 @@
         }
       ]
     },
+<<<<<<< HEAD
     "redis-node-3": {
       "name": "redis-node-3",
       "image": {
         "name": "redis-node-3",
+=======
+    "keydb-sentinel-1": {
+      "name": "keydb-sentinel-1",
+      "image": {
+        "name": "keydb-sentinel-1",
+>>>>>>> KEYDB
         "origin": {
           "type": "docker-file",
           "details": {
@@ -96,8 +113,13 @@
       "config": {
         "network": {
           "public": "disable",
+<<<<<<< HEAD
           "hostname": "redis-node-3",
           "ports": [ "6379:6379", "16379:16379" ]
+=======
+          "hostname": "keydb-sentinel-1",
+          "ports": [ "26379:26379" ]
+>>>>>>> KEYDB
         },
         "deploy": {
           "instances": 1,
@@ -121,10 +143,17 @@
         }
       ]
     },
+<<<<<<< HEAD
     "redis-node-4": {
       "name": "redis-node-4",
       "image": {
         "name": "redis-node-4",
+=======
+    "keydb-sentinel-2": {
+      "name": "keydb-sentinel-2",
+      "image": {
+        "name": "keydb-sentinel-2",
+>>>>>>> KEYDB
         "origin": {
           "type": "docker-file",
           "details": {
@@ -137,8 +166,13 @@
       "config": {
         "network": {
           "public": "disable",
+<<<<<<< HEAD
           "hostname": "redis-node-4",
           "ports": [ "6379:6379", "16379:16379" ]
+=======
+          "hostname": "keydb-sentinel-2",
+          "ports": [ "26379:26379" ]
+>>>>>>> KEYDB
         },
         "deploy": {
           "instances": 1,
@@ -162,10 +196,17 @@
         }
       ]
     },
+<<<<<<< HEAD
     "redis-node-5": {
       "name": "redis-node-5",
       "image": {
         "name": "redis-node-5",
+=======
+    "keydb-sentinel-3": {
+      "name": "keydb-sentinel-3",
+      "image": {
+        "name": "keydb-sentinel-3",
+>>>>>>> KEYDB
         "origin": {
           "type": "docker-file",
           "details": {
@@ -178,8 +219,13 @@
       "config": {
         "network": {
           "public": "disable",
+<<<<<<< HEAD
           "hostname": "redis-node-5",
           "ports": [ "6379:6379", "16379:16379" ]
+=======
+          "hostname": "keydb-sentinel-3",
+          "ports": [ "26379:26379" ]
+>>>>>>> KEYDB
         },
         "deploy": {
           "instances": 1,
@@ -203,10 +249,17 @@
         }
       ]
     },
+<<<<<<< HEAD
     "redis-node-6": {
       "name": "redis-node-6",
       "image": {
         "name": "redis-node-6",
+=======
+    "keydb-proxy": {
+      "name": "keydb-proxy",
+      "image": {
+        "name": "keydb-proxy",
+>>>>>>> KEYDB
         "origin": {
           "type": "docker-file",
           "details": {
@@ -219,6 +272,7 @@
       "config": {
         "network": {
           "public": "disable",
+<<<<<<< HEAD
           "hostname": "redis-node-6",
           "ports": [ "6379:6379", "16379:16379" ]
         },
@@ -262,6 +316,10 @@
           "public": "disable",
           "hostname": "redis-cluster-proxy",
           "ports": [ "7777:7777" ]
+=======
+          "hostname": "keydb-proxy",
+          "ports": [ "6379:6379" ]
+>>>>>>> KEYDB
         },
         "deploy": {
           "instances": 1,
@@ -269,6 +327,7 @@
             "delay": "15s"
           }
         }
+<<<<<<< HEAD
       },
       "volumes": [
         {
@@ -310,6 +369,8 @@
             "delay": "10s"
           }
         }
+=======
+>>>>>>> KEYDB
       }
     }
   }
