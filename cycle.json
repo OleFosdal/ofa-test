@@ -17,10 +17,6 @@
       "config": {
         "network": {
           "public": "disable",
-<<<<<<< HEAD
-          "hostname": "redis-node-1",
-          "ports": [ "6379:6379", "16379:16379" ]
-=======
           "hostname": "keydb-node-1",
           "ports": [ "6379:6379" ]
 >>>>>>> KEYDB
@@ -60,11 +56,7 @@
       "config": {
         "network": {
           "public": "disable",
-<<<<<<< HEAD
           "hostname": "redis-node-2",
-          "ports": [ "6379:6379", "16379:16379" ]
-=======
-          "hostname": "keydb-node-2",
           "ports": [ "6379:6379" ]
 >>>>>>> KEYDB
         },
@@ -90,17 +82,10 @@
         }
       ]
     },
-<<<<<<< HEAD
-    "redis-node-3": {
-      "name": "redis-node-3",
+    "redis-sentinel-1": {
+      "name": "redis-sentinel-1",
       "image": {
-        "name": "redis-node-3",
-=======
-    "keydb-sentinel-1": {
-      "name": "keydb-sentinel-1",
-      "image": {
-        "name": "keydb-sentinel-1",
->>>>>>> KEYDB
+        "name": "redis-sentinel-1",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -113,11 +98,7 @@
       "config": {
         "network": {
           "public": "disable",
-<<<<<<< HEAD
-          "hostname": "redis-node-3",
-          "ports": [ "6379:6379", "16379:16379" ]
-=======
-          "hostname": "keydb-sentinel-1",
+          "hostname": "redis-sentinel-1",
           "ports": [ "26379:26379" ]
 >>>>>>> KEYDB
         },
@@ -143,17 +124,10 @@
         }
       ]
     },
-<<<<<<< HEAD
-    "redis-node-4": {
-      "name": "redis-node-4",
+    "redis-sentinel-2": {
+      "name": "redis-sentinel-2",
       "image": {
-        "name": "redis-node-4",
-=======
-    "keydb-sentinel-2": {
-      "name": "keydb-sentinel-2",
-      "image": {
-        "name": "keydb-sentinel-2",
->>>>>>> KEYDB
+        "name": "redis-sentinel-2",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -166,11 +140,7 @@
       "config": {
         "network": {
           "public": "disable",
-<<<<<<< HEAD
-          "hostname": "redis-node-4",
-          "ports": [ "6379:6379", "16379:16379" ]
-=======
-          "hostname": "keydb-sentinel-2",
+          "hostname": "redis-sentinel-2",
           "ports": [ "26379:26379" ]
 >>>>>>> KEYDB
         },
@@ -196,17 +166,10 @@
         }
       ]
     },
-<<<<<<< HEAD
-    "redis-node-5": {
-      "name": "redis-node-5",
+    "redis-sentinel-3": {
+      "name": "redis-sentinel-3",
       "image": {
-        "name": "redis-node-5",
-=======
-    "keydb-sentinel-3": {
-      "name": "keydb-sentinel-3",
-      "image": {
-        "name": "keydb-sentinel-3",
->>>>>>> KEYDB
+        "name": "redis-sentinel-3",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -219,11 +182,7 @@
       "config": {
         "network": {
           "public": "disable",
-<<<<<<< HEAD
-          "hostname": "redis-node-5",
-          "ports": [ "6379:6379", "16379:16379" ]
-=======
-          "hostname": "keydb-sentinel-3",
+          "hostname": "redis-sentinel-3",
           "ports": [ "26379:26379" ]
 >>>>>>> KEYDB
         },
@@ -298,10 +257,10 @@
         }
       ]
     },
-    "redis-cluster-proxy": {
-      "name": "redis-cluster-proxy",
+    "redis-proxy": {
+      "name": "redis-proxy",
       "image": {
-        "name": "redis-cluster-proxy",
+        "name": "redis-proxy",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -314,10 +273,7 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-cluster-proxy",
-          "ports": [ "7777:7777" ]
-=======
-          "hostname": "keydb-proxy",
+          "hostname": "redis-proxy",
           "ports": [ "6379:6379" ]
 >>>>>>> KEYDB
         },
@@ -327,7 +283,6 @@
             "delay": "15s"
           }
         }
-<<<<<<< HEAD
       },
       "volumes": [
         {
@@ -343,35 +298,6 @@
           "destination": "/var/lib/config"
         }
       ]
-    },
-    "redis-cluster-init": {
-      "name": "redis-cluster-init",
-      "image": {
-        "name": "redis-cluster-init",
-        "origin": {
-          "type": "docker-file",
-          "details": {
-            "context_dir": "/init",
-            "build_file": "/init/Dockerfile"
-          }
-        }
-      },
-      "stateful": false,
-      "config": {
-        "network": {
-          "public": "disable",
-          "hostname": "redis-cluster-init"
-        },
-        "deploy": {
-          "instances": 1,
-          "strategy": "function",
-          "startup": {
-            "delay": "10s"
-          }
-        }
-=======
->>>>>>> KEYDB
-      }
     }
   }
 }
