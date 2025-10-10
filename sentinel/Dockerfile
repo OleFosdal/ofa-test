@@ -4,4 +4,4 @@ RUN apt-get update
 VOLUME /var/lib/config
 RUN chown -R 0660 /var/lib/config
 COPY ./keydb.conf /var/lib/config 
-CMD keydb-server /var/lib/config/keydb.conf
+CMD keydb-sentinel /var/lib/config/keydb.conf
