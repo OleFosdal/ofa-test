@@ -1,10 +1,10 @@
 {
   "version": "1.0",
   "containers": {
-    "redis-node-1": {
-      "name": "redis-node-1",
+    "keydb-node-1": {
+      "name": "keydb-node-1",
       "image": {
-        "name": "redis-node-1",
+        "name": "keydb-node-1",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -17,7 +17,7 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-node-1",
+          "hostname": "keydb-node-1",
           "ports": [ "6379:6379" ]
         },
         "deploy": {
@@ -39,10 +39,10 @@
         }
       ]
     },
-    "redis-node-2": {
-      "name": "redis-node-2",
+    "keydb-node-2": {
+      "name": "keydb-node-2",
       "image": {
-        "name": "redis-node-2",
+        "name": "keydb-node-2",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -55,7 +55,7 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-node-2",
+          "hostname": "keydb-node-2",
           "ports": [ "6379:6379" ]
         },
         "deploy": {
@@ -80,10 +80,10 @@
         }
       ]
     },
-    "redis-sentinel-1": {
-      "name": "redis-sentinel-1",
+    "keydb-sentinel-1": {
+      "name": "keydb-sentinel-1",
       "image": {
-        "name": "redis-sentinel-1",
+        "name": "keydb-sentinel-1",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -96,7 +96,7 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-sentinel-1",
+          "hostname": "keydb-sentinel-1",
           "ports": [ "26379:26379" ]
         },
         "deploy": {
@@ -121,10 +121,10 @@
         }
       ]
     },
-    "redis-sentinel-2": {
-      "name": "redis-sentinel-2",
+    "keydb-sentinel-2": {
+      "name": "keydb-sentinel-2",
       "image": {
-        "name": "redis-sentinel-2",
+        "name": "keydb-sentinel-2",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -137,7 +137,7 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-sentinel-2",
+          "hostname": "keydb-sentinel-2",
           "ports": [ "26379:26379" ]
         },
         "deploy": {
@@ -162,10 +162,10 @@
         }
       ]
     },
-    "redis-sentinel-3": {
-      "name": "redis-sentinel-3",
+    "keydb-sentinel-3": {
+      "name": "keydb-sentinel-3",
       "image": {
-        "name": "redis-sentinel-3",
+        "name": "keydb-sentinel-3",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -178,7 +178,7 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-sentinel-3",
+          "hostname": "keydb-sentinel-3",
           "ports": [ "26379:26379" ]
         },
         "deploy": {
@@ -203,10 +203,10 @@
         }
       ]
     },
-    "redis-proxy": {
-      "name": "redis-proxy",
+    "keydb-proxy": {
+      "name": "keydb-proxy",
       "image": {
-        "name": "redis-proxy",
+        "name": "keydb-proxy",
         "origin": {
           "type": "docker-file",
           "details": {
@@ -219,7 +219,7 @@
       "config": {
         "network": {
           "public": "disable",
-          "hostname": "redis-proxy",
+          "hostname": "keydb-proxy",
           "ports": [ "6379:6379" ]
         },
         "deploy": {
@@ -228,21 +228,7 @@
             "delay": "15s"
           }
         }
-      },
-      "volumes": [
-        {
-          "local": {
-            "max_size": "3G"
-          },
-          "destination": "/data"
-        },
-        {
-          "local": {
-            "max_size": "3G"
-          },
-          "destination": "/var/lib/config"
-        }
-      ]
+      }
     }
   }
 }
